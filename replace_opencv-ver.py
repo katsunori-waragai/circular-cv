@@ -9,15 +9,18 @@ def replace_version(line, patterns):
             break
     return line
 
+if __name__ == "__main__":
+    patterns = {
+        "opencv-python": "4.0.0.21",
+        "opencv-contrib-python": "4.0.0.21",
+        "numpy": "1.22.1",
+    }
 
-patterns = {
-    "opencv-python": "4.0.0.21",
-    "opencv-contrib-python": "4.0.0.21",
-    "numpy": "1.22.1",
-}
+    pyproject = Path("pyproject.toml")
+    outfile = Path("pyproject_new.toml")
+    olines = [replace_version(line, patterns) for line in open(pyproject)]
+    open(outfile, "wt").writelines(olines)
 
-pyproject = Path("pyproject.toml")
-olines = [replace_version(line, patterns) for line in open(pyproject)]
-
-outfile = Path("pyproject_new.toml")
-open(outfile, "wt").writelines(olines)
+    if outfile.stat().st_size > 0:
+        pyproject.rename(Path("pyproject_backup.toml"))
+        outfile.rename(Path("pyproject.toml"))
