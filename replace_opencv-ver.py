@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from typing import Dict
 
 def replace_version(line, patterns):
     for pat, version in patterns.items():
@@ -9,6 +9,16 @@ def replace_version(line, patterns):
             break
     return line
 
+def replace_dependencies(src: Path, patterns: Dict):
+    dst = Path(f"{src.stem}_new.toml")
+    backup = Path(f"{src.stem}_backup.toml")
+    olines = [replace_version(line, patterns) for line in open(src)]
+    open(dst, "wt").writelines(olines)
+
+    if dst.stat().st_size > 0:
+        src.rename(backup)
+        dst.rename(src)
+
 if __name__ == "__main__":
     patterns = {
         "opencv-python": "4.0.0.21",
@@ -16,11 +26,5 @@ if __name__ == "__main__":
         "numpy": "1.22.1",
     }
 
-    pyproject = Path("pyproject.toml")
-    outfile = Path("pyproject_new.toml")
-    olines = [replace_version(line, patterns) for line in open(pyproject)]
-    open(outfile, "wt").writelines(olines)
-
-    if outfile.stat().st_size > 0:
-        pyproject.rename(Path("pyproject_backup.toml"))
-        outfile.rename(Path("pyproject.toml"))
+    src = Path("pyproject.toml")
+    replace_dependencies(src, patterns)
