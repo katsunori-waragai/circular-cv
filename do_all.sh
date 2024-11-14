@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "python3 -m pip install --upgrade pip"
+echo "python3 -m pip uninstall opencv-contrib-python opencv-contrib-python-headless"
 for v in $(cat candidate.txt)
 do
   echo "#" $v;
