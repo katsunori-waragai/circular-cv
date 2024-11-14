@@ -7,6 +7,7 @@ if __name__ == "__main__":
         import cv2
         with open("succeeded.txt", "at") as f:
             f.write(f"{args.full_version=} : ")
+            f.write(f"{cv2.__file__=} : ")
             f.write(f"{cv2.__version__=} \n")
     except ImportError:
         with open("failed.txt", "at") as f:
