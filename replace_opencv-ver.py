@@ -1,7 +1,4 @@
-patterns = [
-    "opencv-python",
-    "opencv-contrib-python",
-]
+from pathlib import Path
 
 patterns = {
     "opencv-python": "4.0.0.21",
@@ -20,9 +17,7 @@ def replace_version(line, patterns):
     return line
 
 
-olines = []
-for line in open(pyproject):
-    olines.append(replace_version(line, patterns))
+olines = [replace_version(line, patterns) for line in open(pyproject)]
 
 outfile = "pyproject_new.toml"
 open(outfile, "wt").writelines(olines)
