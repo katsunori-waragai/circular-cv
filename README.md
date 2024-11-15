@@ -24,7 +24,7 @@ python3 -m pip install opencv-python-4.9.0.80
 となるということ、一番最後の'.80'の部分は表示されないということ。
 
 candidate.txt に記したバージョンについていえば、
-opencv-pythonを単独に入れている範囲では,import cv2 でエラーを生じていないということ。
+opencv-pythonを**単独**に入れている範囲では, AttributeError: partially initialized module 'cv2' has no attribute '_registerMatType' でエラーを生じていないということ。
 
 
 ## 対策
